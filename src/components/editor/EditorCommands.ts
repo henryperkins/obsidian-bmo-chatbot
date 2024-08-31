@@ -1,7 +1,7 @@
 import BMOGPT, { BMOSettings, DEFAULT_SETTINGS } from 'src/main';
 import { fetchModelRenameTitle } from './FetchRenameNoteTitle';
 import { MarkdownView, Notice } from 'obsidian';
-import { ANTHROPIC_MODELS, OPENAI_MODELS } from 'src/view';
+import { ANTHROPIC_MODELS } from 'src/view';
 import { fetchOpenAIBaseAPIResponseEditor, fetchOllamaResponseEditor, fetchRESTAPIURLDataEditor, fetchAnthropicResponseEditor, fetchMistralDataEditor, fetchGoogleGeminiDataEditor, fetchOpenRouterEditor } from '../FetchModelEditor';
 
 export async function renameTitleCommand(plugin: BMOGPT, settings: BMOSettings) {
@@ -149,7 +149,7 @@ export async function promptSelectGenerateCommand(plugin: BMOGPT, settings: BMOS
                 console.log(error.message);
             }
         }
-        else if (OPENAI_MODELS.includes(settings.general.model)) {
+        else if (settings.APIConnections.openAI.openAIBaseModels.includes(settings.general.model)) {
             try {
                 const response = await fetchOpenAIBaseAPIResponseEditor(settings, select); 
                 // Replace the current selection with the response

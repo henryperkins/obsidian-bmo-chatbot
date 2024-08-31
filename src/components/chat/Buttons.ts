@@ -1,6 +1,6 @@
 import { MarkdownRenderer, Modal, Notice, TFile, setIcon } from 'obsidian';
 import BMOGPT, { BMOSettings, checkActiveFile } from 'src/main';
-import { ANTHROPIC_MODELS, OPENAI_MODELS, activeEditor, fileNameMessageHistoryJson, lastCursorPosition, lastCursorPositionFile, messageHistory } from 'src/view';
+import { ANTHROPIC_MODELS, activeEditor, fileNameMessageHistoryJson, lastCursorPosition, lastCursorPositionFile, messageHistory } from 'src/view';
 import { fetchOpenAIAPIResponseStream, fetchOpenAIAPIResponse, fetchOllamaResponse, fetchOllamaResponseStream, fetchAnthropicResponse, fetchRESTAPIURLResponse, fetchRESTAPIURLResponseStream, fetchMistralResponseStream, fetchMistralResponse, fetchGoogleGeminiResponse, fetchOpenRouterResponseStream, fetchOpenRouterResponse, fetchGoogleGeminiResponseStream } from '../FetchModelResponse';
 import { getActiveFileContent } from '../editor/ReferenceCurrentNote';
 import { addParagraphBreaks } from './Message';
@@ -31,7 +31,7 @@ export function regenerateUserButton(plugin: BMOGPT, settings: BMOSettings) {
 
         if (index !== -1) {
             deleteMessage(plugin, index+1);
-            if (OPENAI_MODELS.includes(settings.general.model) || settings.APIConnections.openAI.openAIBaseModels.includes(settings.general.model)) {
+            if (settings.APIConnections.openAI.openAIBaseModels.includes(settings.general.model)) {
                 try {
                     if (settings.APIConnections.openAI.enableStream) {
                         await fetchOpenAIAPIResponseStream(plugin, settings, index); 
@@ -302,7 +302,7 @@ export function displayUserEditButton (plugin: BMOGPT, settings: BMOSettings, us
                             console.error('Mistral Error:', error);
                         }
                     }
-                    else if (OPENAI_MODELS.includes(settings.general.model) || settings.APIConnections.openAI.openAIBaseModels.includes(settings.general.model)) {
+                    else if (settings.APIConnections.openAI.openAIBaseModels.includes(settings.general.model)) {
                         try {
                             if (settings.APIConnections.openAI.enableStream) {
                                 await fetchOpenAIAPIResponseStream(plugin, settings, index); 

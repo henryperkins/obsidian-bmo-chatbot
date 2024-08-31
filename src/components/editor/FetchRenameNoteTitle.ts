@@ -2,7 +2,7 @@ import { Notice, requestUrl } from 'obsidian';
 import { Ollama } from 'ollama';
 import OpenAI from 'openai';
 import { BMOSettings } from 'src/main';
-import { ANTHROPIC_MODELS, OPENAI_MODELS } from 'src/view';
+import { ANTHROPIC_MODELS } from 'src/view';
 
 // Rename note title based on specified model
 export async function fetchModelRenameTitle(settings: BMOSettings, referenceCurrentNoteContent: string) {
@@ -169,7 +169,7 @@ export async function fetchModelRenameTitle(settings: BMOSettings, referenceCurr
             }
 
         }
-        else if (OPENAI_MODELS.includes(settings.general.model) || (settings.APIConnections.openAI.openAIBaseModels.includes(settings.general.model))) {
+        else if (settings.APIConnections.openAI.openAIBaseModels.includes(settings.general.model)) {
             const openai = new OpenAI({
                 apiKey: settings.APIConnections.openAI.APIKey,
                 baseURL: settings.APIConnections.openAI.openAIBaseUrl,
