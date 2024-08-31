@@ -2,7 +2,6 @@ import { requestUrl } from 'obsidian';
 import { Ollama } from 'ollama'
 import OpenAI from 'openai';
 import BMOGPT from 'src/main';
-import { OPENAI_MODELS } from 'src/view';
 
 export async function fetchOllamaModels(plugin: BMOGPT) {
         const ollamaRESTAPIURL = plugin.settings.OllamaConnection.RESTAPIURL;
@@ -122,18 +121,15 @@ export async function fetchOpenAIBaseModels(plugin: BMOGPT) {
         dangerouslyAllowBrowser: true, // apiKey is stored within data.json
     });
 
-	const list = await openai.models.list();
-
-    if (openai.baseURL == 'https://api.openai.com/v1') {
-        plugin.settings.APIConnections.openAI.openAIBaseModels = OPENAI_MODELS;
-        return OPENAI_MODELS;
-    }
-    else {
+    try {
+        const list = await openai.models.list();
         const models = list.data.map((model) => model.id);
         plugin.settings.APIConnections.openAI.openAIBaseModels = models;
         return models;
+    } catch (error) {
+        console.error('Error fetching OpenAI models:', error);
+        return [];
     }
-
 }
 
 export async function fetchOpenRouterModels(plugin: BMOGPT) {
